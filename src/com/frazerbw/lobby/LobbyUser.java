@@ -1,13 +1,30 @@
 package com.frazerbw.lobby;
 
+import com.frazerbw.util.*;
+
 import java.net.*;
 
-public class LobbyUser {
+public class LobbyUser extends Thread implements User {
 
-    Socket socket;
+    UserSocket userSocket;
+    boolean connectedToServer = true;
 
     public LobbyUser(Socket socket) {
-        this.socket = socket;
+        userSocket = new UserSocket(socket, this);
+    }
+
+    public void run() {
+        while (connectedToServer) {
+            userSocket.sendUTF("Hello World!");
+        }
+    }
+
+    public void disconnectUser() {
+        connectedToServer = false;
+    }
+
+    public boolean isConnected() {
+        return connectedToServer;
     }
 
 }

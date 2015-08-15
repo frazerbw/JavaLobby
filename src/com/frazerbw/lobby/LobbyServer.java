@@ -43,6 +43,7 @@ public class LobbyServer extends Thread {
     private void acceptNewUsers() throws IOException {
         Socket socket = serverSocket.accept();
         LobbyUser user = new LobbyUser(socket);
+        user.start();
         System.out.println("New user has joined the lobby.");
     }
 
